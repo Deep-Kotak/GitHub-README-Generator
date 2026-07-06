@@ -57,8 +57,62 @@ generateBtn.addEventListener("click", async function() {
 
     readmeOutput.value = "";
 
-    livePreview.innerHTML = "";
+    livePreview.innerHTML = `
 
+<h1>Hi 👋 I'm ${data.name || data.login}</h1>
+
+<h3>${title}</h3>
+
+<p>${data.bio || ""}</p>
+
+<hr>
+
+<h2>💻 Tech Stack</h2>
+
+<img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white">
+
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+
+<img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+
+<img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+
+<img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask">
+
+<hr>
+
+<h2>📊 GitHub Stats</h2>
+
+<img
+src="https://github-readme-stats.vercel.app/api?username=${data.login}&show_icons=true&theme=${themeSelect.value}"
+width="100%">
+
+<hr>
+
+<h2>💻 Top Languages</h2>
+
+<img
+src="https://github-readme-stats.vercel.app/api/top-langs/?username=${data.login}&layout=compact&theme=${themeSelect.value}"
+width="100%">
+
+<hr>
+
+<h2>🌐 Connect</h2>
+
+<a href="${data.html_url}" target="_blank">
+
+${data.html_url}
+
+</a>
+
+<hr>
+
+<img
+src="https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge">
+
+`;
     try {
 
         const response = await fetch(
