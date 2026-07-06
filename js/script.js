@@ -1,68 +1,122 @@
-const generateBtn = document.getElementById("generateBtn");
-const usernameInput = document.getElementById("username");
-const profile = document.getElementById("profile");
-const readmeOutput = document.getElementById("readmeOutput");
+// ================================
+// GitHub README Generator
+// Part 1
+// ================================
 
+// Buttons
+const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 
+// Inputs
+const usernameInput = document.getElementById("username");
+const template = document.getElementById("template");
+
+// Output Areas
+const profile = document.getElementById("profile");
+const readmeOutput = document.getElementById("readmeOutput");
+const livePreview = document.getElementById("livePreview");
+
+// ================================
 // Generate README
+// ================================
+
 generateBtn.addEventListener("click", async function() {
 
     const username = usernameInput.value.trim();
 
     if (username === "") {
-        alert("Please enter a GitHub username.");
+
+        alert("Please enter GitHub Username");
+
         return;
+
     }
 
-    profile.innerHTML = "<p>Loading...</p>";
+    profile.innerHTML = "<h3>Loading...</h3>";
+
     readmeOutput.value = "";
+
+    livePreview.innerHTML = "";
 
     try {
 
-        const response = await fetch(`https://api.github.com/users/${username}`);
+        const response =
+            await fetch(`https://api.github.com/users/${username}`);
+
         const data = await response.json();
 
         if (data.message === "Not Found") {
 
-            profile.innerHTML = "<h3>❌ GitHub User Not Found</h3>";
-            readmeOutput.value = "";
+            profile.innerHTML =
+                "<h3>❌ GitHub User Not Found</h3>";
 
             return;
         }
 
+        // ===========================
         // Profile Card
+        // ===========================
+
         profile.innerHTML = `
-            <img
-                src="${data.avatar_url}"
-                alt="Avatar"
-                width="120"
-                style="border-radius:50%; margin-bottom:15px;">
 
-            <h2>${data.name || data.login}</h2>
+        <img
+            src="${data.avatar_url}"
+            width="120"
+            style="border-radius:50%;margin-bottom:15px;">
 
-            <p>${data.bio || "No bio available"}</p>
+        <h2>${data.name || data.login}</h2>
 
-            <hr>
+        <p>${data.bio || "No Bio Available"}</p>
 
-            <p><strong>Repositories:</strong> ${data.public_repos}</p>
+        <hr>
 
-            <p><strong>Followers:</strong> ${data.followers}</p>
+        <p><strong>Repositories :</strong> ${data.public_repos}</p>
 
-            <p><strong>Following:</strong> ${data.following}</p>
+        <p><strong>Followers :</strong> ${data.followers}</p>
 
-            <p>
-                <a href="${data.html_url}" target="_blank">
-                    Visit GitHub Profile
-                </a>
-            </p>
+        <p><strong>Following :</strong> ${data.following}</p>
+
+        <p>
+
+            <a
+                href="${data.html_url}"
+                target="_blank">
+
+                Visit GitHub Profile
+
+            </a>
+
+        </p>
+
         `;
 
-        // README Generator
+        // ===========================
+        // Template Selection
+        // ===========================
+
+        let title = "";
+
+        if (template.value === "developer") {
+
+            title = "💻 Full Stack Developer";
+
+        } else if (template.value === "student") {
+
+            title = "🎓 Computer Science Student";
+
+        } else {
+
+            title = "🚀 Full Stack Engineer";
+
+        }
+        // ===========================
+        // Generate README
+        // ===========================
+
         const readme = `# Hi 👋 I'm ${data.name || data.login}
 
-${data.bio || "Passionate Developer"}
+${title}
 
 ---
 
@@ -106,52 +160,99 @@ ${data.html_url}
 ⭐ Generated using GitHub README Generator
 `;
 
+        // Show generated README
         readmeOutput.value = readme;
+
+        // ===========================
+        // Live Preview
+        // ===========================
+
+        livePreview.innerHTML = `
+
+            <h1>Hi 👋 I'm ${data.name || data.login}</h1>
+
+            <h3>${title}</h3>
+
+            <img
+                src="${data.avatar_url}"
+                width="120"
+                style="border-radius:50%;margin:15px 0;">
+
+            <p>${data.bio || "No Bio Available"}</p>
+
+            <hr>
+
+            <p><strong>Repositories:</strong> ${data.public_repos}</p>
+
+            <p><strong>Followers:</strong> ${data.followers}</p>
+
+            <p><strong>Following:</strong> ${data.following}</p>
+
+            <p>
+
+                <a
+                    href="${data.html_url}"
+                    target="_blank">
+
+                    Visit GitHub Profile
+
+                </a>
+
+            </p>
+
+        `;
 
     } catch (error) {
 
-        profile.innerHTML = "<h3>❌ Something went wrong!</h3>";
-        readmeOutput.value = "";
+        profile.innerHTML =
+            "<h2>❌ Something Went Wrong!</h2>";
 
-        console.error(error);
+        console.log(error);
 
     }
 
 });
+// ================================
+// Copy README
+// ================================
 
-// Copy Button
 copyBtn.addEventListener("click", function() {
 
     if (readmeOutput.value === "") {
 
         alert("Generate README First!");
-        return;
 
+        return;
     }
 
     navigator.clipboard.writeText(readmeOutput.value);
 
-    alert("README Copied Successfully!");
+    alert("✅ README Copied Successfully!");
 
 });
 
-// Download Button
+// ================================
+// Download README
+// ================================
+
 downloadBtn.addEventListener("click", function() {
 
     if (readmeOutput.value === "") {
 
         alert("Generate README First!");
-        return;
 
+        return;
     }
 
     const blob = new Blob(
         [readmeOutput.value], { type: "text/markdown" }
     );
 
+    const url = URL.createObjectURL(blob);
+
     const link = document.createElement("a");
 
-    link.href = URL.createObjectURL(blob);
+    link.href = url;
 
     link.download = "README.md";
 
@@ -161,6 +262,22 @@ downloadBtn.addEventListener("click", function() {
 
     document.body.removeChild(link);
 
-    URL.revokeObjectURL(link.href);
+    URL.revokeObjectURL(url);
+
+});
+
+// ================================
+// Press Enter to Generate README
+// ================================
+
+usernameInput.addEventListener("keypress", function(event) {
+
+    if (event.key === "Enter") {
+
+        event.preventDefault();
+
+        generateBtn.click();
+
+    }
 
 });
