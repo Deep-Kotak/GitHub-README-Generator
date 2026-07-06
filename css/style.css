@@ -94,14 +94,16 @@ hr {
 
 textarea {
     width: 100%;
-    margin-top: 15px;
+    margin-top: 20px;
     padding: 15px;
     border-radius: 10px;
-    resize: none;
+    resize: vertical;
+    min-height: 420px;
     font-size: 14px;
     font-family: Consolas, monospace;
     background: #f6f8fa;
     color: #000;
+    line-height: 1.5;
 }
 
 .button-group {
