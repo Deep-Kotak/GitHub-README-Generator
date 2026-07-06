@@ -159,3 +159,54 @@ textarea {
     min-height: 200px;
     overflow: auto;
 }
+
+#message {
+    margin-top: 15px;
+    color: #16a34a;
+    font-weight: bold;
+    text-align: center;
+}
+
+.dark {
+    background: #0d1117;
+    color: white;
+}
+
+.dark .container {
+    background: #161b22;
+}
+
+.dark textarea {
+    background: #21262d;
+    color: white;
+}
+
+.dark input,
+.dark select {
+    background: #21262d;
+    color: white;
+    border: 1px solid #444;
+}
+
+.dark #livePreview {
+    background: #21262d;
+    color: white;
+}
+
+#resetBtn {
+    margin-top: 15px;
+    background: #dc2626;
+}
+
+#resetBtn:hover {
+    background: #b91c1c;
+}
+
+#themeBtn {
+    margin-top: 15px;
+    background: #7c3aed;
+}
+
+#themeBtn:hover {
+    background: #6d28d9;
+}

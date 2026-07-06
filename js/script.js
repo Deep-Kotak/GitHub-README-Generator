@@ -7,6 +7,14 @@
 const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
 const downloadBtn = document.getElementById("downloadBtn");
+const themeBtn =
+    document.getElementById("themeBtn");
+
+const resetBtn =
+    document.getElementById("resetBtn");
+
+const message =
+    document.getElementById("message");
 
 // Inputs
 const usernameInput = document.getElementById("username");
@@ -227,7 +235,14 @@ copyBtn.addEventListener("click", function() {
 
     navigator.clipboard.writeText(readmeOutput.value);
 
-    alert("✅ README Copied Successfully!");
+    message.textContent =
+        "✅ README Copied Successfully!";
+
+    setTimeout(function() {
+
+        message.textContent = "";
+
+    }, 2000);
 
 });
 
@@ -277,6 +292,24 @@ usernameInput.addEventListener("keypress", function(event) {
         event.preventDefault();
 
         generateBtn.click();
+
+    }
+
+});
+
+themeBtn.addEventListener("click", function() {
+
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+
+        themeBtn.textContent =
+            "☀ Light Mode";
+
+    } else {
+
+        themeBtn.textContent =
+            "🌙 Dark Mode";
 
     }
 
