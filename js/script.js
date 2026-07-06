@@ -1,32 +1,39 @@
-// ================================
+// =====================================
 // GitHub README Generator
-// Part 1
-// ================================
+// script.js - Part 1
+// =====================================
 
 // Buttons
 const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
 const downloadBtn = document.getElementById("downloadBtn");
-const themeBtn =
-    document.getElementById("themeBtn");
-
-const resetBtn =
-    document.getElementById("resetBtn");
-
-const message =
-    document.getElementById("message");
+const resetBtn = document.getElementById("resetBtn");
 
 // Inputs
 const usernameInput = document.getElementById("username");
 const template = document.getElementById("template");
+const themeSelect = document.getElementById("themeSelect");
 
-// Output Areas
+// Output
 const profile = document.getElementById("profile");
 const readmeOutput = document.getElementById("readmeOutput");
 const livePreview = document.getElementById("livePreview");
+const message = document.getElementById("message");
 
 // ================================
-// Generate README
+// Load Saved Theme
+// ================================
+
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme) {
+
+    themeSelect.value = savedTheme;
+
+}
+
+// ================================
+// Generate Button
 // ================================
 
 generateBtn.addEventListener("click", async function() {
@@ -41,6 +48,11 @@ generateBtn.addEventListener("click", async function() {
 
     }
 
+    localStorage.setItem(
+        "theme",
+        themeSelect.value
+    );
+
     profile.innerHTML = "<h3>Loading...</h3>";
 
     readmeOutput.value = "";
@@ -49,17 +61,19 @@ generateBtn.addEventListener("click", async function() {
 
     try {
 
-        const response =
-            await fetch(`https://api.github.com/users/${username}`);
+        const response = await fetch(
+            `https://api.github.com/users/${username}`
+        );
 
         const data = await response.json();
 
         if (data.message === "Not Found") {
 
             profile.innerHTML =
-                "<h3>❌ GitHub User Not Found</h3>";
+                "<h2>❌ GitHub User Not Found</h2>";
 
             return;
+
         }
 
         // ===========================
@@ -70,8 +84,7 @@ generateBtn.addEventListener("click", async function() {
 
         <img
             src="${data.avatar_url}"
-            width="120"
-            style="border-radius:50%;margin-bottom:15px;">
+            width="120">
 
         <h2>${data.name || data.login}</h2>
 
@@ -87,20 +100,20 @@ generateBtn.addEventListener("click", async function() {
 
         <p>
 
-            <a
-                href="${data.html_url}"
-                target="_blank">
+        <a
+            href="${data.html_url}"
+            target="_blank">
 
-                Visit GitHub Profile
+            Visit GitHub Profile
 
-            </a>
+        </a>
 
         </p>
 
         `;
 
         // ===========================
-        // Template Selection
+        // README Template
         // ===========================
 
         let title = "";
@@ -128,6 +141,17 @@ ${title}
 
 ---
 
+## 🚀 About Me
+
+${data.bio || "Passionate Developer"}
+
+- 🔭 GitHub Username: ${data.login}
+- 📦 Public Repositories: ${data.public_repos}
+- 👥 Followers: ${data.followers}
+- ➡️ Following: ${data.following}
+
+---
+
 # 💻 Tech Stack
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
@@ -146,13 +170,13 @@ ${title}
 
 # 📊 GitHub Stats
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=${data.login}&show_icons=true&theme=github_dark)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=${data.login}&show_icons=true&theme=${themeSelect.value})
 
 ---
 
 # 💻 Most Used Languages
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=${data.login}&layout=compact&theme=github_dark)
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=${data.login}&layout=compact&theme=${themeSelect.value})
 
 ---
 
@@ -165,10 +189,14 @@ ${data.html_url}
 
 ![](https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge)
 
-⭐ Generated using GitHub README Generator
+---
+
+⭐ If you like my work, please give a ⭐ to my repositories.
+
+Made with ❤️ using GitHub README Generator.
 `;
 
-        // Show generated README
+        // Show README
         readmeOutput.value = readme;
 
         // ===========================
@@ -177,14 +205,13 @@ ${data.html_url}
 
         livePreview.innerHTML = `
 
-            <h1>Hi 👋 I'm ${data.name || data.login}</h1>
-
-            <h3>${title}</h3>
-
             <img
                 src="${data.avatar_url}"
-                width="120"
-                style="border-radius:50%;margin:15px 0;">
+                width="120">
+
+            <h2>${data.name || data.login}</h2>
+
+            <h3>${title}</h3>
 
             <p>${data.bio || "No Bio Available"}</p>
 
@@ -207,36 +234,58 @@ ${data.html_url}
                 </a>
 
             </p>
+        `;
+        // ===========================
+        // Success Message
+        // ===========================
 
+        message.textContent = "✅ README Generated Successfully!";
+
+        setTimeout(function() {
+
+            message.textContent = "";
+
+        }, 3000);
+
+    }
+
+    // ===========================
+    // Error Handling
+    // ===========================
+    catch (error) {
+
+        console.error(error);
+
+        profile.innerHTML = `
+            <h2>❌ Something Went Wrong</h2>
+            <p>Please check your internet connection or try again later.</p>
         `;
 
-    } catch (error) {
+        readmeOutput.value = "";
 
-        profile.innerHTML =
-            "<h2>❌ Something Went Wrong!</h2>";
-
-        console.log(error);
+        livePreview.innerHTML = "";
 
     }
 
 });
-// ================================
+
+// =====================================
 // Copy README
-// ================================
+// =====================================
 
 copyBtn.addEventListener("click", function() {
 
     if (readmeOutput.value === "") {
 
-        alert("Generate README First!");
+        alert("Please generate a README first.");
 
         return;
+
     }
 
     navigator.clipboard.writeText(readmeOutput.value);
 
-    message.textContent =
-        "✅ README Copied Successfully!";
+    message.textContent = "📋 README Copied Successfully!";
 
     setTimeout(function() {
 
@@ -246,21 +295,24 @@ copyBtn.addEventListener("click", function() {
 
 });
 
-// ================================
+// =====================================
 // Download README
-// ================================
+// =====================================
 
 downloadBtn.addEventListener("click", function() {
 
     if (readmeOutput.value === "") {
 
-        alert("Generate README First!");
+        alert("Please generate a README first.");
 
         return;
+
     }
 
     const blob = new Blob(
-        [readmeOutput.value], { type: "text/markdown" }
+        [readmeOutput.value], {
+            type: "text/markdown"
+        }
     );
 
     const url = URL.createObjectURL(blob);
@@ -279,11 +331,48 @@ downloadBtn.addEventListener("click", function() {
 
     URL.revokeObjectURL(url);
 
+    message.textContent = "⬇ README Downloaded Successfully!";
+
+    setTimeout(function() {
+
+        message.textContent = "";
+
+    }, 2000);
+
+});
+// =====================================
+// Reset Button
+// =====================================
+
+resetBtn.addEventListener("click", function() {
+
+    usernameInput.value = "";
+
+    template.selectedIndex = 0;
+
+    themeSelect.selectedIndex = 0;
+
+    profile.innerHTML = `
+        <p>
+            Enter GitHub username and click Generate.
+        </p>
+    `;
+
+    readmeOutput.value = "";
+
+    livePreview.innerHTML = `
+        README Preview will appear here...
+    `;
+
+    message.textContent = "";
+
+    localStorage.removeItem("theme");
+
 });
 
-// ================================
-// Press Enter to Generate README
-// ================================
+// =====================================
+// Enter Key Support
+// =====================================
 
 usernameInput.addEventListener("keypress", function(event) {
 
@@ -297,20 +386,29 @@ usernameInput.addEventListener("keypress", function(event) {
 
 });
 
-themeBtn.addEventListener("click", function() {
+// =====================================
+// Theme Change
+// =====================================
 
-    document.body.classList.toggle("dark");
+themeSelect.addEventListener("change", function() {
 
-    if (document.body.classList.contains("dark")) {
-
-        themeBtn.textContent =
-            "☀ Light Mode";
-
-    } else {
-
-        themeBtn.textContent =
-            "🌙 Dark Mode";
-
-    }
+    localStorage.setItem(
+        "theme",
+        themeSelect.value
+    );
 
 });
+
+// =====================================
+// Auto Focus
+// =====================================
+
+window.addEventListener("load", function() {
+
+    usernameInput.focus();
+
+});
+
+// =====================================
+// End of File
+// =====================================

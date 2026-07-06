@@ -20,23 +20,25 @@
 
     <h1>🚀 GitHub README Generator</h1>
 
-    <p>
+    <p class="subtitle">
         Generate a professional GitHub Profile README instantly.
     </p>
 
-    <!-- GitHub Username -->
+    <!-- Username -->
 
     <input
         type="text"
         id="username"
         placeholder="Enter GitHub Username">
 
-    <!-- Template Selection -->
+    <!-- Template -->
 
     <div class="template-box">
 
         <label for="template">
+
             Select README Template
+
         </label>
 
         <select id="template">
@@ -57,39 +59,68 @@
 
     </div>
 
-    <!-- Generate Button -->
+    <!-- Theme -->
+
+    <div class="theme-box">
+
+        <label for="themeSelect">
+
+            GitHub Stats Theme
+
+        </label>
+
+        <select id="themeSelect">
+
+            <option value="github_dark">
+                GitHub Dark
+            </option>
+
+            <option value="radical">
+                Radical
+            </option>
+
+            <option value="tokyonight">
+                Tokyo Night
+            </option>
+
+            <option value="dracula">
+                Dracula
+            </option>
+
+        </select>
+
+    </div>
+
+    <!-- Main Buttons -->
 
     <button id="generateBtn">
+
         🚀 Generate README
+
     </button>
-    <button id="resetBtn">
-    🔄 Reset
-</button>
-
-<button id="themeBtn">
-    🌙 Dark Mode
-</button>
 
     <button id="resetBtn">
-    🔄 Reset
-</button>
 
-<button id="themeBtn">
-    🌙 Dark Mode
-</button>
+        🔄 Reset
 
-    <!-- Profile -->
+    </button>
+
+    <!-- Preview -->
 
     <div id="preview">
 
         <h2>
+
             GitHub Profile
+
         </h2>
 
         <div id="profile">
 
             <p>
-                Enter a GitHub username and click Generate.
+
+                Enter GitHub username and click Generate.
+
             </p>
 
         </div>
@@ -97,34 +128,47 @@
         <hr>
 
         <h2>
+
             Generated README
+
         </h2>
 
         <textarea
-            id="readmeOutput"
-            rows="18"
-            readonly></textarea>
 
-        <!-- Buttons -->
+            id="readmeOutput"
+
+            rows="18"
+
+            readonly>
+
+        </textarea>
+
+        <!-- Action Buttons -->
 
         <div class="button-group">
 
-    <button id="copyBtn">
-        📋 Copy README
-    </button>
+            <button id="copyBtn">
 
-    <button id="downloadBtn">
-        ⬇ Download README
-    </button>
+                📋 Copy README
 
-</div>
+            </button>
 
-<p id="message"></p>
+            <button id="downloadBtn">
+
+                ⬇ Download README
+
+            </button>
+
+        </div>
+
+        <p id="message"></p>
 
         <hr>
 
         <h2>
+
             Live Preview
+
         </h2>
 
         <div id="livePreview">
@@ -140,4 +184,5 @@
 <script src="js/script.js"></script>
 
 </body>
+
 </html>
