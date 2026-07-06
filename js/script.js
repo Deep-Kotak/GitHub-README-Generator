@@ -2,6 +2,11 @@ const generateBtn = document.getElementById("generateBtn");
 const usernameInput = document.getElementById("username");
 const profile = document.getElementById("profile");
 const readmeOutput = document.getElementById("readmeOutput");
+const copyBtn =
+    document.getElementById("copyBtn");
+
+const downloadBtn =
+    document.getElementById("downloadBtn");
 
 generateBtn.addEventListener("click", async function() {
 
@@ -82,5 +87,47 @@ ${data.html_url}
 
         console.error(error);
     }
+
+});
+
+copyBtn.addEventListener("click", function() {
+
+    if (readmeOutput.value === "") {
+
+        alert("Generate README First!");
+
+        return;
+    }
+
+    navigator.clipboard.writeText(
+        readmeOutput.value
+    );
+
+    alert("README Copied!");
+});
+
+downloadBtn.addEventListener("click", function() {
+
+    if (readmeOutput.value === "") {
+
+        alert("Generate README First!");
+
+        return;
+    }
+
+    const blob = new Blob(
+        [readmeOutput.value], { type: "text/markdown" }
+    );
+
+    const link =
+        document.createElement("a");
+
+    link.href =
+        URL.createObjectURL(blob);
+
+    link.download =
+        "README.md";
+
+    link.click();
 
 });

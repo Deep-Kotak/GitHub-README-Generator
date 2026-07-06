@@ -103,3 +103,29 @@ textarea {
     background: #f6f8fa;
     color: #000;
 }
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.button-group button {
+    flex: 1;
+}
+
+#copyBtn {
+    background: #2563eb;
+}
+
+#copyBtn:hover {
+    background: #1d4ed8;
+}
+
+#downloadBtn {
+    background: #16a34a;
+}
+
+#downloadBtn:hover {
+    background: #15803d;
+}
