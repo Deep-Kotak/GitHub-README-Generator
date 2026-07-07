@@ -1,7 +1,7 @@
-// =====================================
+// =========================================
 // GitHub README Generator
 // script.js - Part 1
-// =====================================
+// =========================================
 
 // Buttons
 const generateBtn = document.getElementById("generateBtn");
@@ -20,21 +20,19 @@ const readmeOutput = document.getElementById("readmeOutput");
 const livePreview = document.getElementById("livePreview");
 const message = document.getElementById("message");
 
-// ================================
+// =========================================
 // Load Saved Theme
-// ================================
+// =========================================
 
 const savedTheme = localStorage.getItem("theme");
 
 if (savedTheme) {
-
     themeSelect.value = savedTheme;
-
 }
 
-// ================================
-// Generate Button
-// ================================
+// =========================================
+// Generate README
+// =========================================
 
 generateBtn.addEventListener("click", async function() {
 
@@ -48,71 +46,18 @@ generateBtn.addEventListener("click", async function() {
 
     }
 
-    localStorage.setItem(
-        "theme",
-        themeSelect.value
-    );
+    // Save Theme
+    localStorage.setItem("theme", themeSelect.value);
 
+    // Loading
     profile.innerHTML = "<h3>Loading...</h3>";
 
     readmeOutput.value = "";
 
-    livePreview.innerHTML = `
+    livePreview.innerHTML = "";
 
-<h1>Hi 👋 I'm ${data.name || data.login}</h1>
+    message.textContent = "";
 
-<h3>${title}</h3>
-
-<p>${data.bio || ""}</p>
-
-<hr>
-
-<h2>💻 Tech Stack</h2>
-
-<img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white">
-
-<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
-
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-
-<img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-
-<img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-
-<img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask">
-
-<hr>
-
-<h2>📊 GitHub Stats</h2>
-
-<img
-src="https://github-readme-stats.vercel.app/api?username=${data.login}&show_icons=true&theme=${themeSelect.value}"
-width="100%">
-
-<hr>
-
-<h2>💻 Top Languages</h2>
-
-<img
-src="https://github-readme-stats.vercel.app/api/top-langs/?username=${data.login}&layout=compact&theme=${themeSelect.value}"
-width="100%">
-
-<hr>
-
-<h2>🌐 Connect</h2>
-
-<a href="${data.html_url}" target="_blank">
-
-${data.html_url}
-
-</a>
-
-<hr>
-
-<img
-src="https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge">
-
-`;
     try {
 
         const response = await fetch(
@@ -130,64 +75,77 @@ src="https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge">
 
         }
 
-        // ===========================
-        // Profile Card
-        // ===========================
-
-        profile.innerHTML = `
-
-        <img
-            src="${data.avatar_url}"
-            width="120">
-
-        <h2>${data.name || data.login}</h2>
-
-        <p>${data.bio || "No Bio Available"}</p>
-
-        <hr>
-
-        <p><strong>Repositories :</strong> ${data.public_repos}</p>
-
-        <p><strong>Followers :</strong> ${data.followers}</p>
-
-        <p><strong>Following :</strong> ${data.following}</p>
-
-        <p>
-
-        <a
-            href="${data.html_url}"
-            target="_blank">
-
-            Visit GitHub Profile
-
-        </a>
-
-        </p>
-
-        `;
-
-        // ===========================
-        // README Template
-        // ===========================
+        // =====================================
+        // Template
+        // =====================================
 
         let title = "";
 
-        if (template.value === "developer") {
+        switch (template.value) {
 
-            title = "💻 Full Stack Developer";
+            case "developer":
 
-        } else if (template.value === "student") {
+                title = "💻 Full Stack Developer";
 
-            title = "🎓 Computer Science Student";
+                break;
 
-        } else {
+            case "student":
 
-            title = "🚀 Full Stack Engineer";
+                title = "🎓 Computer Science Student";
+
+                break;
+
+            case "fullstack":
+
+                title = "🚀 Full Stack Engineer";
+
+                break;
+
+            default:
+
+                title = "💻 Developer";
 
         }
-        // ===========================
+
+        // =====================================
+        // Profile Card
+        // =====================================
+
+        profile.innerHTML = `
+
+            <img
+                src="${data.avatar_url}"
+                width="120"
+                style="border-radius:50%;">
+
+            <h2>${data.name || data.login}</h2>
+
+            <p>${data.bio || "No Bio Available"}</p>
+
+            <hr>
+
+            <p><strong>Repositories:</strong> ${data.public_repos}</p>
+
+            <p><strong>Followers:</strong> ${data.followers}</p>
+
+            <p><strong>Following:</strong> ${data.following}</p>
+
+            <p>
+
+                <a
+                    href="${data.html_url}"
+                    target="_blank">
+
+                    Visit GitHub Profile
+
+                </a>
+
+            </p>
+
+        `;
+        // =====================================
         // Generate README
-        // ===========================
+        // =====================================
 
         const readme = `# Hi 👋 I'm ${data.name || data.login}
 
@@ -222,17 +180,17 @@ ${data.bio || "Passionate Developer"}
 
 ---
 
-# 📊 GitHub Stats
+// # 📊 GitHub Stats
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=${data.login}&show_icons=true&theme=${themeSelect.value})
+// ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=${data.login}&show_icons=true&theme=${themeSelect.value})
 
----
+// ---
 
-# 💻 Most Used Languages
+// # 💻 Most Used Languages
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=${data.login}&layout=compact&theme=${themeSelect.value})
+// ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=${data.login}&layout=compact&theme=${themeSelect.value})
 
----
+// ---
 
 # 🌐 Connect With Me
 
@@ -252,18 +210,13 @@ Made with ❤️ using GitHub README Generator.
 
         // Show README
         readmeOutput.value = readme;
-
-        // ===========================
+        // =====================================
         // Live Preview
-        // ===========================
+        // =====================================
 
         livePreview.innerHTML = `
 
-            <img
-                src="${data.avatar_url}"
-                width="120">
-
-            <h2>${data.name || data.login}</h2>
+            <h1>Hi 👋 I'm ${data.name || data.login}</h1>
 
             <h3>${title}</h3>
 
@@ -271,31 +224,91 @@ Made with ❤️ using GitHub README Generator.
 
             <hr>
 
-            <p><strong>Repositories:</strong> ${data.public_repos}</p>
+            <h2>💻 Tech Stack</h2>
 
-            <p><strong>Followers:</strong> ${data.followers}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
 
-            <p><strong>Following:</strong> ${data.following}</p>
+                <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white">
+
+                <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+
+                <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+
+                <img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+
+                <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+
+                <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask">
+
+            </div>
+
+            <hr>
+
+           <hr>
+
+<h2>🚀 Skills</h2>
+
+<p>
+
+    ✔ Java
+
+    ✔ Python
+
+    ✔ JavaScript
+
+    ✔ HTML
+
+    ✔ CSS
+
+    ✔ Flask
+
+</p>
+
+<hr>
+
+<h2>📂 Featured Projects</h2>
+
+<ul>
+
+    <li>🌦 Weather Dashboard</li>
+
+    <li>📖 GitHub README Generator</li>
+
+    <li>💰 Expense Tracker</li>
+
+    <li>🤖 AI Agent Builder</li>
+
+</ul>
+
+            <hr>
+
+            <h2>🌐 Connect With Me</h2>
 
             <p>
 
-                <a
-                    href="${data.html_url}"
-                    target="_blank">
+                <a href="${data.html_url}" target="_blank">
 
-                    Visit GitHub Profile
+                    ${data.html_url}
 
                 </a>
 
             </p>
+
+            <hr>
+
+            <img
+                src="https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge">
+
         `;
-        // ===========================
+
+        // =====================================
         // Success Message
-        // ===========================
+        // =====================================
 
-        message.textContent = "✅ README Generated Successfully!";
+        message.textContent =
+            "✅ README Generated Successfully!";
 
-        setTimeout(function() {
+        setTimeout(() => {
 
             message.textContent = "";
 
@@ -303,17 +316,15 @@ Made with ❤️ using GitHub README Generator.
 
     }
 
-    // ===========================
+    // =====================================
     // Error Handling
-    // ===========================
+    // =====================================
     catch (error) {
 
         console.error(error);
 
-        profile.innerHTML = `
-            <h2>❌ Something Went Wrong</h2>
-            <p>Please check your internet connection or try again later.</p>
-        `;
+        profile.innerHTML =
+            "<h2>❌ Something Went Wrong</h2>";
 
         readmeOutput.value = "";
 
@@ -327,11 +338,11 @@ Made with ❤️ using GitHub README Generator.
 // Copy README
 // =====================================
 
-copyBtn.addEventListener("click", function() {
+copyBtn.addEventListener("click", () => {
 
     if (readmeOutput.value === "") {
 
-        alert("Please generate a README first.");
+        alert("Please generate README first.");
 
         return;
 
@@ -341,7 +352,7 @@ copyBtn.addEventListener("click", function() {
 
     message.textContent = "📋 README Copied Successfully!";
 
-    setTimeout(function() {
+    setTimeout(() => {
 
         message.textContent = "";
 
@@ -353,20 +364,18 @@ copyBtn.addEventListener("click", function() {
 // Download README
 // =====================================
 
-downloadBtn.addEventListener("click", function() {
+downloadBtn.addEventListener("click", () => {
 
     if (readmeOutput.value === "") {
 
-        alert("Please generate a README first.");
+        alert("Please generate README first.");
 
         return;
 
     }
 
     const blob = new Blob(
-        [readmeOutput.value], {
-            type: "text/markdown"
-        }
+        [readmeOutput.value], { type: "text/markdown" }
     );
 
     const url = URL.createObjectURL(blob);
@@ -385,42 +394,50 @@ downloadBtn.addEventListener("click", function() {
 
     URL.revokeObjectURL(url);
 
-    message.textContent = "⬇ README Downloaded Successfully!";
+    message.textContent = "⬇️ README Downloaded Successfully!";
 
-    setTimeout(function() {
+    setTimeout(() => {
 
         message.textContent = "";
 
     }, 2000);
 
 });
+
 // =====================================
 // Reset Button
 // =====================================
 
-resetBtn.addEventListener("click", function() {
+resetBtn.addEventListener("click", () => {
 
     usernameInput.value = "";
 
     template.selectedIndex = 0;
 
-    themeSelect.selectedIndex = 0;
-
     profile.innerHTML = `
-        <p>
-            Enter GitHub username and click Generate.
-        </p>
+        <p>Enter GitHub username and click Generate.</p>
     `;
 
     readmeOutput.value = "";
 
-    livePreview.innerHTML = `
-        README Preview will appear here...
-    `;
+    livePreview.innerHTML = "README Preview will appear here...";
 
     message.textContent = "";
 
-    localStorage.removeItem("theme");
+    usernameInput.focus();
+
+});
+
+// =====================================
+// Theme Selection
+// =====================================
+
+themeSelect.addEventListener("change", () => {
+
+    localStorage.setItem(
+        "theme",
+        themeSelect.value
+    );
 
 });
 
@@ -428,7 +445,7 @@ resetBtn.addEventListener("click", function() {
 // Enter Key Support
 // =====================================
 
-usernameInput.addEventListener("keypress", function(event) {
+usernameInput.addEventListener("keypress", (event) => {
 
     if (event.key === "Enter") {
 
@@ -441,23 +458,10 @@ usernameInput.addEventListener("keypress", function(event) {
 });
 
 // =====================================
-// Theme Change
-// =====================================
-
-themeSelect.addEventListener("change", function() {
-
-    localStorage.setItem(
-        "theme",
-        themeSelect.value
-    );
-
-});
-
-// =====================================
 // Auto Focus
 // =====================================
 
-window.addEventListener("load", function() {
+window.addEventListener("load", () => {
 
     usernameInput.focus();
 
