@@ -30,310 +30,6 @@ if (savedTheme) {
     themeSelect.value = savedTheme;
 }
 
-// =========================================
-// Generate README
-// =========================================
-
-generateBtn.addEventListener("click", async function() {
-
-    const username = usernameInput.value.trim();
-
-    if (username === "") {
-
-        alert("Please enter GitHub Username");
-
-        return;
-
-    }
-
-    // Save Theme
-    localStorage.setItem("theme", themeSelect.value);
-
-    // Loading
-    profile.innerHTML = "<h3>Loading...</h3>";
-
-    readmeOutput.value = "";
-
-    livePreview.innerHTML = "";
-
-    message.textContent = "";
-
-    try {
-
-        const response = await fetch(
-            `https://api.github.com/users/${username}`
-        );
-
-        const data = await response.json();
-
-        if (data.message === "Not Found") {
-
-            profile.innerHTML =
-                "<h2>❌ GitHub User Not Found</h2>";
-
-            return;
-
-        }
-
-        // =====================================
-        // Template
-        // =====================================
-
-        let title = "";
-
-        switch (template.value) {
-
-            case "developer":
-
-                title = "💻 Full Stack Developer";
-
-                break;
-
-            case "student":
-
-                title = "🎓 Computer Science Student";
-
-                break;
-
-            case "fullstack":
-
-                title = "🚀 Full Stack Engineer";
-
-                break;
-
-            default:
-
-                title = "💻 Developer";
-
-        }
-
-        // =====================================
-        // Profile Card
-        // =====================================
-
-        profile.innerHTML = `
-
-            <img
-                src="${data.avatar_url}"
-                width="120"
-                style="border-radius:50%;">
-
-            <h2>${data.name || data.login}</h2>
-
-            <p>${data.bio || "No Bio Available"}</p>
-
-            <hr>
-
-            <p><strong>Repositories:</strong> ${data.public_repos}</p>
-
-            <p><strong>Followers:</strong> ${data.followers}</p>
-
-            <p><strong>Following:</strong> ${data.following}</p>
-
-            <p>
-
-                <a
-                    href="${data.html_url}"
-                    target="_blank">
-
-                    Visit GitHub Profile
-
-                </a>
-
-            </p>
-
-        `;
-        // =====================================
-        // Generate README
-        // =====================================
-
-        const readme = `# Hi 👋 I'm ${data.name || data.login}
-
-${title}
-
----
-
-## 🚀 About Me
-
-${data.bio || "Passionate Developer"}
-
-- 🔭 GitHub Username: ${data.login}
-- 📦 Public Repositories: ${data.public_repos}
-- 👥 Followers: ${data.followers}
-- ➡️ Following: ${data.following}
-
----
-
-# 💻 Tech Stack
-
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-
-![HTML5](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-
-![CSS3](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-
-![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask)
-
----
-
-// # 📊 GitHub Stats
-
-// ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=${data.login}&show_icons=true&theme=${themeSelect.value})
-
-// ---
-
-// # 💻 Most Used Languages
-
-// ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=${data.login}&layout=compact&theme=${themeSelect.value})
-
-// ---
-
-# 🌐 Connect With Me
-
-GitHub:
-${data.html_url}
-
----
-
-![](https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge)
-
----
-
-⭐ If you like my work, please give a ⭐ to my repositories.
-
-Made with ❤️ using GitHub README Generator.
-`;
-
-        // Show README
-        readmeOutput.value = readme;
-        // =====================================
-        // Live Preview
-        // =====================================
-
-        livePreview.innerHTML = `
-
-            <h1>Hi 👋 I'm ${data.name || data.login}</h1>
-
-            <h3>${title}</h3>
-
-            <p>${data.bio || "No Bio Available"}</p>
-
-            <hr>
-
-            <h2>💻 Tech Stack</h2>
-
-            <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
-
-                <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white">
-
-                <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
-
-                <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-
-                <img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-
-                <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-
-                <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask">
-
-            </div>
-
-            <hr>
-
-           <hr>
-
-<h2>🚀 Skills</h2>
-
-<p>
-
-    ✔ Java
-
-    ✔ Python
-
-    ✔ JavaScript
-
-    ✔ HTML
-
-    ✔ CSS
-
-    ✔ Flask
-
-</p>
-
-<hr>
-
-<h2>📂 Featured Projects</h2>
-
-<ul>
-
-    <li>🌦 Weather Dashboard</li>
-
-    <li>📖 GitHub README Generator</li>
-
-    <li>💰 Expense Tracker</li>
-
-    <li>🤖 AI Agent Builder</li>
-
-</ul>
-
-            <hr>
-
-            <h2>🌐 Connect With Me</h2>
-
-            <p>
-
-                <a href="${data.html_url}" target="_blank">
-
-                    ${data.html_url}
-
-                </a>
-
-            </p>
-
-            <hr>
-
-            <img
-                src="https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge">
-
-        `;
-
-        // =====================================
-        // Success Message
-        // =====================================
-
-        message.textContent =
-            "✅ README Generated Successfully!";
-
-        setTimeout(() => {
-
-            message.textContent = "";
-
-        }, 3000);
-
-    }
-
-    // =====================================
-    // Error Handling
-    // =====================================
-    catch (error) {
-
-        console.error(error);
-
-        profile.innerHTML =
-            "<h2>❌ Something Went Wrong</h2>";
-
-        readmeOutput.value = "";
-
-        livePreview.innerHTML = "";
-
-    }
-
-});
-
 // =====================================
 // Copy README
 // =====================================
@@ -414,9 +110,7 @@ resetBtn.addEventListener("click", () => {
 
     template.selectedIndex = 0;
 
-    profile.innerHTML = `
-        <p>Enter GitHub username and click Generate.</p>
-    `;
+    profile.innerHTML = `<p>Enter GitHub username and click Generate.</p>`;
 
     readmeOutput.value = "";
 
@@ -467,6 +161,243 @@ window.addEventListener("load", () => {
 
 });
 
-// =====================================
+// =========================================
+// Generate README
+// =========================================
+
+generateBtn.addEventListener("click", async function() {
+
+            const username = usernameInput.value.trim();
+
+            if (username === "") {
+
+                alert("Please enter GitHub Username");
+
+                return;
+
+            }
+
+            // Save Theme
+            localStorage.setItem("theme", themeSelect.value);
+
+            // Loading
+            profile.innerHTML = "<h3>Loading...</h3>";
+
+            readmeOutput.value = "";
+
+            livePreview.innerHTML = "";
+
+            message.textContent = "";
+
+            try {
+
+                const response = await fetch(
+                    `https://api.github.com/users/${username}`
+                );
+
+                const data = await response.json();
+                const repoResponse = await fetch(
+                    `https://api.github.com/users/${username}/repos?sort=updated`
+                );
+
+                const repos = await repoResponse.json();
+
+                if (data.message === "Not Found") {
+
+                    profile.innerHTML =
+                        "<h2>❌ GitHub User Not Found</h2>";
+
+                    return;
+
+                }
+
+                // =====================================
+                // Template
+                // =====================================
+
+                let title = "";
+
+                switch (template.value) {
+
+                    case "developer":
+
+                        title = "💻 Full Stack Developer";
+
+                        break;
+
+                    case "student":
+
+                        title = "🎓 Computer Science Student";
+
+                        break;
+
+                    case "fullstack":
+
+                        title = "🚀 Full Stack Engineer";
+
+                        break;
+
+                    default:
+
+                        title = "💻 Developer";
+
+                }
+
+                // =====================================
+                // Profile Card
+                // =====================================
+
+                profile.innerHTML = `
+
+            <img
+                src="${data.avatar_url}"
+                width="120"
+                style="border-radius:50%;">
+
+            <h2>${data.name || data.login}</h2>
+
+            <p>${data.bio || "No Bio Available"}</p>
+            <hr>
+
+
+
+            <hr>
+
+            <p><strong>Repositories:</strong> ${data.public_repos}</p>
+
+            <p><strong>Followers:</strong> ${data.followers}</p>
+
+            <p><strong>Following:</strong> ${data.following}</p>
+
+            <p>
+
+                <a
+                    href="${data.html_url}"
+                    target="_blank">
+
+                    Visit GitHub Profile
+
+                </a>
+
+            </p>
+
+        `;
+                // =====================================
+                // Generate README
+                // =====================================
+                let projectsMarkdown = "";
+
+                repos.slice(0, 5).forEach(repo => {
+
+                    projectsMarkdown += `
+
+## ${repo.name}
+
+Language : ${repo.language || "N/A"}
+
+⭐ Stars : ${repo.stargazers_count}
+
+🍴 Forks : ${repo.forks_count}
+
+🔗 ${repo.html_url}
+
+---
+
+`;
+
+                });
+
+                const readme = `# Hi 👋 I'm ${data.name || data.login}
+
+${title}
+
+---
+
+## 🚀 About Me
+
+${data.bio || "Passionate Developer"}
+
+- 🔭 GitHub Username: ${data.login}
+- 📦 Public Repositories: ${data.public_repos}
+- 👥 Followers: ${data.followers}
+- ➡️ Following: ${data.following}
+
+---
+
+
+
+
+
+# 🌐 Connect With Me
+
+GitHub:
+${data.html_url}
+
+---
+
+![](https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge)
+
+---
+
+⭐ If you like my work, please give a ⭐ to my repositories.
+
+Made with ❤️ using GitHub README Generator.
+
+---
+
+# 📂 Featured Projects
+
+${projectsMarkdown}
+                `;
+                let projectHTML = "";
+
+                repos.slice(0, 5).forEach(repo => {
+
+                    projectHTML += `
+                <div class="repo-card">
+                    <h3>${repo.name}</h3>
+                    <p><strong>Language:</strong> ${repo.language || "N/A"}</p>
+                    <p>⭐ ${repo.stargazers_count} | 🍴 ${repo.forks_count}</p>
+                    <a href="${repo.html_url}" target="_blank">View Repository</a>
+                </div>
+                `;
+
+                });
+
+                // Show README
+                readmeOutput.value = readme;
+                // =====================================
+                // Live Preview
+                // =====================================
+
+                livePreview.innerHTML = `
+                <h1>Hi👋 I'm ${data.name || data.login}</h1>
+                <h3>${title}</h3>
+                <p>${data.bio || "No Bio Available"}</p>
+                <hr>
+                <h2>📂 Featured Projects</h2>
+                ${projectHTML}
+                <hr>
+                <h2>🌐 Connect With Me</h2>
+                <p>
+                    <a href="${data.html_url}" target="_blank">${data.html_url}</a>
+                </p>
+                <hr>
+                <img src="https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge">
+                `;
+
+            } catch (error) {
+
+                console.error(error);
+
+                profile.innerHTML = "<h2>❌ Something went wrong. Please try again.</h2>";
+
+                message.textContent = "";
+
+            }
+
+});
+
+// =========================================
 // End of File
-// =====================================
+// =========================================

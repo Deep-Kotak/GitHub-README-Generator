@@ -8,9 +8,18 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>GitHub README Generator</title>
+    <title>GitHub README Generator v2.0</title>
 
     <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
 </head>
 
@@ -18,167 +27,196 @@
 
 <div class="container">
 
-    <h1>🚀 GitHub README Generator</h1>
+    <!-- Header -->
 
-    <p class="subtitle">
-        Generate a professional GitHub Profile README instantly.
-    </p>
+    <header>
 
-    <!-- Username -->
+        <h1>🚀 GitHub README Generator</h1>
 
-    <input
-        type="text"
-        id="username"
-        placeholder="Enter GitHub Username"
-        autocomplete="off">
+        <p>
+            Generate a professional GitHub Profile README in seconds.
+        </p>
 
-    <!-- Template -->
+    </header>
 
-    <div class="template-box">
+    <!-- Search Section -->
 
-        <label for="template">
+    <section class="search-box">
 
-            Select README Template
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter GitHub Username">
 
-        </label>
+        <button id="generateBtn">
 
-        <select id="template">
+            Generate README
 
-            <option value="developer">
-                Developer
-            </option>
+        </button>
 
-            <option value="student">
-                Student
-            </option>
+    </section>
 
-            <option value="fullstack">
-                Full Stack
-            </option>
+    <!-- Settings -->
 
-        </select>
+    <section class="settings">
 
-    </div>
+        <div class="setting">
 
-    <!-- Theme -->
+            <label>
 
-    <div class="theme-box">
+                README Template
 
-        <label for="themeSelect">
+            </label>
 
-            GitHub Stats Theme
+            <select id="template">
 
-        </label>
+                <option value="developer">
 
-        <select id="themeSelect">
+                    Developer
 
-            <option value="github_dark">
-                GitHub Dark
-            </option>
+                </option>
 
-            <option value="radical">
-                Radical
-            </option>
+                <option value="student">
 
-            <option value="tokyonight">
-                Tokyo Night
-            </option>
+                    Student
 
-            <option value="dracula">
-                Dracula
-            </option>
+                </option>
 
-        </select>
+                <option value="fullstack">
 
-    </div>
+                    Full Stack
 
-    <!-- Main Buttons -->
+                </option>
 
-    <button id="generateBtn">
+            </select>
 
-        🚀 Generate README
+        </div>
 
-    </button>
+        <div class="setting">
 
-    <button id="resetBtn">
+            <label>
 
-        🔄 Reset
+                Theme
 
-    </button>
+            </label>
 
-    <!-- Preview -->
+            <select id="themeSelect">
 
-    <div id="preview">
+                <option value="github_dark">
+
+                    GitHub Dark
+
+                </option>
+
+                <option value="radical">
+
+                    Radical
+
+                </option>
+
+                <option value="tokyonight">
+
+                    Tokyo Night
+
+                </option>
+
+                <option value="dracula">
+
+                    Dracula
+
+                </option>
+
+            </select>
+
+        </div>
+
+    </section>
+
+    <!-- Profile -->
+
+    <section>
 
         <h2>
 
-            GitHub Profile
+            👤 GitHub Profile
 
         </h2>
 
-        <div id="profile">
+        <div id="profile"
+             class="profile-card">
 
             <p>
 
-                Enter GitHub username and click Generate.
+                Search any GitHub user.
 
             </p>
 
         </div>
 
-        <hr>
+    </section>
+
+    <!-- Live Preview -->
+
+    <section>
 
         <h2>
 
-            Generated README
+            📄 Live Preview
 
         </h2>
 
-        <textarea
-
-            id="readmeOutput"
-
-            rows="18"
-
-            readonly>
-
-        </textarea>
-
-        <!-- Action Buttons -->
-
-        <div class="button-group">
-
-            <button id="copyBtn">
-
-                📋 Copy README
-
-            </button>
-
-            <button id="downloadBtn">
-
-                ⬇ Download README
-
-            </button>
-
-        </div>
-
-        <p id="message"></p>
-
-        <hr>
-
-        <h2>
-
-            Live Preview
-
-        </h2>
-
-        <div id="livePreview">
+        <div id="livePreview"
+             class="preview-card">
 
             README Preview will appear here...
 
         </div>
 
-    </div>
+    </section>
+
+    <!-- README -->
+
+    <section>
+
+        <h2>
+
+            📝 Generated README
+
+        </h2>
+
+        <textarea
+            id="readmeOutput"
+            readonly>
+
+        </textarea>
+
+    </section>
+
+    <!-- Buttons -->
+
+    <section class="button-group">
+
+        <button id="copyBtn">
+
+            📋 Copy README
+
+        </button>
+
+        <button id="downloadBtn">
+
+            ⬇ Download README
+
+        </button>
+
+        <button id="resetBtn">
+
+            🔄 Reset
+
+        </button>
+
+    </section>
+
+    <p id="message"></p>
 
 </div>
 
@@ -186,4 +224,4 @@
 
 </body>
 
-</html>
+</html> 
