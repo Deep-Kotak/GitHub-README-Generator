@@ -167,87 +167,87 @@ window.addEventListener("load", () => {
 
 generateBtn.addEventListener("click", async function() {
 
-            const username = usernameInput.value.trim();
+    const username = usernameInput.value.trim();
 
-            if (username === "") {
+    if (username === "") {
 
-                alert("Please enter GitHub Username");
+        alert("Please enter GitHub Username");
 
-                return;
+        return;
 
-            }
+    }
 
-            // Save Theme
-            localStorage.setItem("theme", themeSelect.value);
+    // Save Theme
+    localStorage.setItem("theme", themeSelect.value);
 
-            // Loading
-            profile.innerHTML = "<h3>Loading...</h3>";
+    // Loading
+    profile.innerHTML = "<h3>Loading...</h3>";
 
-            readmeOutput.value = "";
+    readmeOutput.value = "";
 
-            livePreview.innerHTML = "";
+    livePreview.innerHTML = "";
 
-            message.textContent = "";
+    message.textContent = "";
 
-            try {
+    try {
 
-                const response = await fetch(
-                    `https://api.github.com/users/${username}`
-                );
+        const response = await fetch(
+            `https://api.github.com/users/${username}`
+        );
 
-                const data = await response.json();
-                const repoResponse = await fetch(
-                    `https://api.github.com/users/${username}/repos?sort=updated`
-                );
+        const data = await response.json();
+        const repoResponse = await fetch(
+            `https://api.github.com/users/${username}/repos?sort=updated`
+        );
 
-                const repos = await repoResponse.json();
+        const repos = await repoResponse.json();
 
-                if (data.message === "Not Found") {
+        if (data.message === "Not Found") {
 
-                    profile.innerHTML =
-                        "<h2>❌ GitHub User Not Found</h2>";
+            profile.innerHTML =
+                "<h2>❌ GitHub User Not Found</h2>";
 
-                    return;
+            return;
 
-                }
+        }
 
-                // =====================================
-                // Template
-                // =====================================
+        // =====================================
+        // Template
+        // =====================================
 
-                let title = "";
+        let title = "";
 
-                switch (template.value) {
+        switch (template.value) {
 
-                    case "developer":
+            case "developer":
 
-                        title = "💻 Full Stack Developer";
+                title = "💻 Full Stack Developer";
 
-                        break;
+                break;
 
-                    case "student":
+            case "student":
 
-                        title = "🎓 Computer Science Student";
+                title = "🎓 Computer Science Student";
 
-                        break;
+                break;
 
-                    case "fullstack":
+            case "fullstack":
 
-                        title = "🚀 Full Stack Engineer";
+                title = "🚀 Full Stack Engineer";
 
-                        break;
+                break;
 
-                    default:
+            default:
 
-                        title = "💻 Developer";
+                title = "💻 Developer";
 
-                }
+        }
 
-                // =====================================
-                // Profile Card
-                // =====================================
+        // =====================================
+        // Profile Card
+        // =====================================
 
-                profile.innerHTML = `
+        profile.innerHTML = `
 
             <img
                 src="${data.avatar_url}"
@@ -282,16 +282,70 @@ generateBtn.addEventListener("click", async function() {
             </p>
 
         `;
-                // =====================================
-                // Generate README
-                // =====================================
-                let projectsMarkdown = "";
+        // =====================================
+        // Generate README
+        // =====================================
 
-                repos.slice(0, 5).forEach(repo => {
+        // =====================================
+        // Dynconst lanamic Tech Stack
+        // =====================================
 
-                    projectsMarkdown += `
+        // =====================================
+        // Dynamic Tech Stack
+        // =====================================
+
+        const languages = [...new Set(
+            repos
+            .map(repo => repo.language)
+            .filter(language => language)
+        )];
+
+        let techStack = "";
+
+        languages.forEach(language => {
+
+            switch (language) {
+
+                case "JavaScript":
+                    techStack += `![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)\n\n`;
+                    break;
+
+                case "Python":
+                    techStack += `![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)\n\n`;
+                    break;
+
+                case "HTML":
+                    techStack += `![HTML5](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)\n\n`;
+                    break;
+
+                case "CSS":
+                    techStack += `![CSS3](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)\n\n`;
+                    break;
+
+                case "Java":
+                    techStack += `![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)\n\n`;
+                    break;
+
+                case "TypeScript":
+                    techStack += `![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)\n\n`;
+                    break;
+
+                default:
+                    techStack += `- ${language}\n`;
+            }
+
+        });
+
+        let projectsMarkdown = "";
+
+        repos.slice(0, 5).forEach(repo => {
+
+            projectsMarkdown += `
 
 ## ${repo.name}
+<p class="repo-description">
+    ${repo.description || "No description available."}
+</p>
 
 Language : ${repo.language || "N/A"}
 
@@ -302,12 +356,11 @@ Language : ${repo.language || "N/A"}
 🔗 ${repo.html_url}
 
 ---
-
 `;
 
-                });
+        });
 
-                const readme = `# Hi 👋 I'm ${data.name || data.login}
+        const readme = `# Hi 👋 I'm ${data.name || data.login}
 
 ${title}
 
@@ -323,7 +376,11 @@ ${data.bio || "Passionate Developer"}
 - ➡️ Following: ${data.following}
 
 ---
+# 💻 Tech Stack
 
+${techStack}
+
+---
 
 
 
@@ -349,28 +406,37 @@ Made with ❤️ using GitHub README Generator.
 
 ${projectsMarkdown}
                 `;
-                let projectHTML = "";
+        let projectHTML = "";
 
-                repos.slice(0, 5).forEach(repo => {
+        repos.slice(0, 5).forEach(repo => {
 
-                    projectHTML += `
-                <div class="repo-card">
-                    <h3>${repo.name}</h3>
-                    <p><strong>Language:</strong> ${repo.language || "N/A"}</p>
-                    <p>⭐ ${repo.stargazers_count} | 🍴 ${repo.forks_count}</p>
-                    <a href="${repo.html_url}" target="_blank">View Repository</a>
-                </div>
-                `;
+            projectHTML += `
+<div class="repo-card">
 
-                });
+    <h3>${repo.name}</h3>
 
-                // Show README
-                readmeOutput.value = readme;
-                // =====================================
-                // Live Preview
-                // =====================================
+    <p>${repo.description || "No description available."}</p>
 
-                livePreview.innerHTML = `
+    <p><strong>Language:</strong> ${repo.language || "N/A"}</p>
+
+    <p>⭐ ${repo.stargazers_count} | 🍴 ${repo.forks_count}</p>
+
+    <a href="${repo.html_url}" target="_blank">
+        View Repository
+    </a>
+
+</div>
+`;
+
+        });
+
+        // Show README
+        readmeOutput.value = readme;
+        // =====================================
+        // Live Preview
+        // =====================================
+
+        livePreview.innerHTML = `
                 <h1>Hi👋 I'm ${data.name || data.login}</h1>
                 <h3>${title}</h3>
                 <p>${data.bio || "No Bio Available"}</p>
@@ -386,15 +452,15 @@ ${projectsMarkdown}
                 <img src="https://komarev.com/ghpvc/?username=${data.login}&style=for-the-badge">
                 `;
 
-            } catch (error) {
+    } catch (error) {
 
-                console.error(error);
+        console.error(error);
 
-                profile.innerHTML = "<h2>❌ Something went wrong. Please try again.</h2>";
+        profile.innerHTML = "<h2>❌ Something went wrong. Please try again.</h2>";
 
-                message.textContent = "";
+        message.textContent = "";
 
-            }
+    }
 
 });
 

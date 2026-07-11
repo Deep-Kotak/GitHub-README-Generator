@@ -236,3 +236,11 @@ hr {
         height: 300px;
     }
 }
+
+.repo-description {
+    margin: 10px 0;
+    color: #b8c0cc;
+    font-size: 15px;
+    line-height: 1.6;
+    font-style: italic;
+}
